@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "5a90a725-219e-494e-9ac1-42af65eaa001": {
+      "ProjectGuid": "5a90a725-219e-494e-9ac1-42af65eaa001",
+      "DisplayName": "AngularBackend",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
