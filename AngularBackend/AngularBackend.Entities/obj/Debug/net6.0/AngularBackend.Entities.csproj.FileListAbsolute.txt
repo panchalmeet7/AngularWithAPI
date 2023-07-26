@@ -1,0 +1,14 @@
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\bin\Debug\net6.0\AngularBackend.Entities.deps.json
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\bin\Debug\net6.0\AngularBackend.Entities.runtimeconfig.json
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\bin\Debug\net6.0\AngularBackend.Entities.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\bin\Debug\net6.0\ref\AngularBackend.Entities.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\bin\Debug\net6.0\AngularBackend.Entities.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.csproj.AssemblyReference.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.AssemblyInfoInputs.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.AssemblyInfo.cs
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.csproj.CoreCompileInputs.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\ref\AngularBackend.Entities.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Entities\obj\Debug\net6.0\AngularBackend.Entities.genruntimeconfig.cache

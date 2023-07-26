@@ -1,0 +1,17 @@
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Repository.deps.json
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Repository.runtimeconfig.json
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Repository.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\ref\AngularBackend.Repository.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Repository.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Entities.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Entities.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.csproj.AssemblyReference.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.AssemblyInfoInputs.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.AssemblyInfo.cs
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.csproj.CoreCompileInputs.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.csproj.CopyComplete
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\ref\AngularBackend.Repository.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.genruntimeconfig.cache

@@ -1,3 +1,8 @@
+using AngularBackend.Entities.Data;
+using AngularBackend.Repository.Interface;
+using AngularBackend.Repository.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<GetConnString>();
+builder.Services.AddDbContext<DummyAppContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
+});
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 var app = builder.Build();
 
