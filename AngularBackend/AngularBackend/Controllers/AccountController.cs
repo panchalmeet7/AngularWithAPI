@@ -25,6 +25,11 @@ namespace AngularBackend.Controllers
         #endregion
 
         #region Authenticate User by email and password
+        /// <summary>
+        /// checking email and password
+        /// </summary>
+        /// <param name="userViewModel"></param>
+        /// <returns></returns>
         [HttpPost("Authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] UserViewModel userViewModel)
         {
@@ -32,7 +37,7 @@ namespace AngularBackend.Controllers
                 return BadRequest(); //400 Error
 
             var user = await _DbContext.Users
-                .FirstOrDefaultAsync(x => x.Email == userViewModel.Email && x.Password == userViewModel.Password); //sp to check email and pass
+                .FirstOrDefaultAsync(x => x.Email == userViewModel.Email && x.Password == userViewModel.Password);
             if (user == null)
                 return NotFound(new { Message = "User Not Found!" });
 
@@ -41,15 +46,27 @@ namespace AngularBackend.Controllers
         #endregion
 
         #region Register new User
+        /// <summary>
+        /// registering new user into database
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterUser([FromBody] User user)
+        public async Task<IActionResult> RegisterUser([FromBody] UserViewModel userViewModel)
         {
-            if (user == null)
+            if (userViewModel == null)
                 return BadRequest();
-            //sp to check the email is exist or not
-           
-            await _DbContext.Users.AddAsync(user);
-            await _DbContext.SaveChangesAsync(); //sp to register user
+
+            User userData = new()
+            {
+                FirstName = userViewModel.FirstName,
+                LastName = userViewModel.LastName,
+                Email = userViewModel.Email,
+                PhoneNumber = userViewModel.PhoneNumber,
+                Password = userViewModel.Password,
+            };
+            await _DbContext.Users.AddAsync(userData);
+            await _DbContext.SaveChangesAsync();
             return Ok(new { Message = "Registration Successful!!" });
         }
         #endregion

@@ -10,6 +10,7 @@ D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Azure.C
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Azure.Identity.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Dapper.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Humanizer.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
@@ -85,4 +86,3 @@ D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\obj\Debug\net6.0\Angular
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\obj\Debug\net6.0\ref\AngularBackend.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\obj\Debug\net6.0\AngularBackend.pdb
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\obj\Debug\net6.0\AngularBackend.genruntimeconfig.cache
-D:\Angular\AngularWithAPI\AngularBackend\AngularBackend\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

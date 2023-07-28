@@ -15,7 +15,5 @@ public partial class User
 
     public string PhoneNumber { get; set; } = null!;
 
-    public string? Gender { get; set; }
-
     public string Password { get; set; } = null!;
 }

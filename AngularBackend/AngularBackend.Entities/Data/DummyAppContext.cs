@@ -18,7 +18,7 @@ public partial class DummyAppContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
-    
+    public virtual DbSet<ImageComp> ImageComps { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -70,7 +70,17 @@ public partial class DummyAppContext : DbContext
                 .HasColumnName("updated_at");
         });
 
-      
+        modelBuilder.Entity<ImageComp>(entity =>
+        {
+            entity.HasKey(e => e.ImageId);
+
+            entity.ToTable("Image_comp");
+
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
+            entity.Property(e => e.ImagePath)
+                .IsUnicode(false)
+                .HasColumnName("image_path");
+        });
 
         modelBuilder.Entity<User>(entity =>
         {
@@ -81,9 +91,6 @@ public partial class DummyAppContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.FirstName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Gender)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.LastName)
