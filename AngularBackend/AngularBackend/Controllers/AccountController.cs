@@ -29,18 +29,18 @@ namespace AngularBackend.Controllers
 
         private Task<bool> CheckEmailExistAsync(string email)
              => _DbContext.Users.AnyAsync(x => x.Email == email);
-        
+
         /// <param name="password"></param>
         /// <returns> Error Msgs </returns>
         private string CheckPasswordStrength(string password)
         {
             StringBuilder sb = new();
-            if(password.Length < 9)
+            if (password.Length < 9)
                 sb.Append("Minimum password length should be 9" + Environment.NewLine);
             if (!(Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[0-9]")))
                 sb.Append("Password Should be Alphanumeric!!" + Environment.NewLine);
-            if ((Regex.IsMatch(password, "[<,>,@,!,#,$,&]")))
-                sb.Append("Password Should Contain Special Character" + Environment.NewLine);
+            //if ((Regex.IsMatch(password, "[<,>,@,!,#,$,&]")))
+            //    sb.Append("Password Should Contain Special Character" + Environment.NewLine);
             return sb.ToString();
         }
 
@@ -53,12 +53,16 @@ namespace AngularBackend.Controllers
         public async Task<IActionResult> Authenticate([FromBody] UserViewModel userViewModel)
         {
             if (userViewModel == null)
-                return BadRequest(); //400 Error
+                return BadRequest(); 
 
             var user = await _DbContext.Users
-                .FirstOrDefaultAsync(x => x.Email == userViewModel.Email && x.Password == userViewModel.Password);
+                .FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
+
             if (user == null)
                 return NotFound(new { Message = "User Not Found!" });
+
+            if (!PasswordHasher.VerifyPassword(userViewModel.Password, user.Password))
+                return BadRequest(new { Message = "Password is incorrect!" });
 
             return Ok(new { Message = "Login Successful!!" });
         }
@@ -76,12 +80,12 @@ namespace AngularBackend.Controllers
                 return BadRequest();
             //check email
             if (await CheckEmailExistAsync(userObj.Email))
-                return BadRequest(new {Message = "Email Already Exist!"});
+                return BadRequest(new { Message = "Email Already Exist!" });
 
             //check pass strength
             var pass = CheckPasswordStrength(userObj.Password);
             if (!string.IsNullOrEmpty(pass))
-                return BadRequest(new { Message = pass.ToString()});
+                return BadRequest(new { Message = pass.ToString() });
 
             userObj.Password = PasswordHasher.HashPassword(userObj.Password); //password hash
             userObj.Role = "USER";
