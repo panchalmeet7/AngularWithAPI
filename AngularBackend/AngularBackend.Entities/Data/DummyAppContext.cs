@@ -97,8 +97,11 @@ public partial class DummyAppContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Password).HasMaxLength(250);
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(15)
+            entity.Property(e => e.Role)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Token)
+                .HasMaxLength(150)
                 .IsUnicode(false);
         });
 
