@@ -3,8 +3,12 @@ using AngularBackend.Entities.Helper;
 using AngularBackend.Entities.Models;
 using AngularBackend.Entities.Models.ViewModels;
 using AngularBackend.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -30,8 +34,6 @@ namespace AngularBackend.Controllers
         private Task<bool> CheckEmailExistAsync(string email)
              => _DbContext.Users.AnyAsync(x => x.Email == email);
 
-        /// <param name="password"></param>
-        /// <returns> Error Msgs </returns>
         private string CheckPasswordStrength(string password)
         {
             StringBuilder sb = new();
@@ -44,16 +46,39 @@ namespace AngularBackend.Controllers
             return sb.ToString();
         }
 
-        #region Authenticate User by email and password
-        /// <summary>
-        /// checking email and password
-        /// </summary>
-        /// <param name="userViewModel"></param>
+        // token contains 3 things => header, payload and signature
+        private string CreateToken(User user) 
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("veryverysecretkey.......");
+            var identity = new ClaimsIdentity(new Claim[] 
+            {
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
+            });
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddSeconds(10),
+                SigningCredentials = credentials
+            };
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return jwtTokenHandler.WriteToken(token);
+        }
+
+        [Authorize]
+        [HttpGet("Users")]
+        public async Task<ActionResult<User>> GetAllUsers()
+        {
+            return Ok(await _DbContext.Users.ToListAsync());
+        } 
+         
         [HttpPost("Authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] UserViewModel userViewModel)
         {
             if (userViewModel == null)
-                return BadRequest(); 
+                return BadRequest();
 
             var user = await _DbContext.Users
                 .FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
@@ -64,15 +89,16 @@ namespace AngularBackend.Controllers
             if (!PasswordHasher.VerifyPassword(userViewModel.Password, user.Password))
                 return BadRequest(new { Message = "Password is incorrect!" });
 
-            return Ok(new { Message = "Login Successful!!" });
-        }
-        #endregion
+            user.Token = CreateToken(user);
 
-        #region Register new User
-        /// <summary>
-        /// registering new user into database
-        /// </summary>
-        /// <param name="user"></param>
+            return Ok(new
+            {
+                Token = user.Token,
+                Message = "Login Successful!!"
+            });
+        }
+
+  
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] User userObj)
         {
@@ -94,6 +120,6 @@ namespace AngularBackend.Controllers
             await _DbContext.SaveChangesAsync();
             return Ok(new { Message = "Registration Successful!!" });
         }
-        #endregion
+
     }
 }
