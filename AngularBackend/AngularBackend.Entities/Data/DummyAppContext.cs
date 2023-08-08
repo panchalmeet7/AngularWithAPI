@@ -97,6 +97,10 @@ public partial class DummyAppContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Password).HasMaxLength(250);
+            entity.Property(e => e.ResetPassewordToken)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ResetPasswordExpiry).HasColumnType("datetime");
             entity.Property(e => e.Role)
                 .HasMaxLength(50)
                 .IsUnicode(false);

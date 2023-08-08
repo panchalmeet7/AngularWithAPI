@@ -20,4 +20,8 @@ public partial class User
     public string? Token { get; set; }
 
     public string? Role { get; set; }
+
+    public string? ResetPassewordToken { get; set; }
+
+    public DateTime? ResetPasswordExpiry { get; set; }
 }

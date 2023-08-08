@@ -15,3 +15,5 @@ D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\ref\AngularBackend.Repository.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.pdb
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\obj\Debug\net6.0\AngularBackend.Repository.genruntimeconfig.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Common.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Repository\bin\Debug\net6.0\AngularBackend.Common.pdb

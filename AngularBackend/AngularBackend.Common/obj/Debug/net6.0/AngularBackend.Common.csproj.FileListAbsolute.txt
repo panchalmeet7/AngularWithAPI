@@ -1,0 +1,12 @@
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\bin\Debug\net6.0\AngularBackend.Common.deps.json
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\bin\Debug\net6.0\AngularBackend.Common.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\bin\Debug\net6.0\ref\AngularBackend.Common.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\bin\Debug\net6.0\AngularBackend.Common.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.csproj.AssemblyReference.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.AssemblyInfoInputs.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.AssemblyInfo.cs
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.csproj.CoreCompileInputs.cache
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\ref\AngularBackend.Common.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.pdb

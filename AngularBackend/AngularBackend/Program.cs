@@ -1,6 +1,8 @@
 using AngularBackend.Entities.Data;
 using AngularBackend.Repository.Interface;
 using AngularBackend.Repository.Repository;
+using AngularBackend.Services.ServiceInterface;
+using AngularBackend.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,8 @@ builder.Services.AddDbContext<DummyAppContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
 });
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

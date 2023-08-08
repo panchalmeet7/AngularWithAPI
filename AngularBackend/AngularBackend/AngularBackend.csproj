@@ -23,8 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AngularBackend.Common\AngularBackend.Common.csproj" />
     <ProjectReference Include="..\AngularBackend.Entities\AngularBackend.Entities.csproj" />
     <ProjectReference Include="..\AngularBackend.Repository\AngularBackend.Repository.csproj" />
+    <ProjectReference Include="..\AngularBackend.Services\AngularBackend.Services.csproj" />
   </ItemGroup>
 
 </Project>
