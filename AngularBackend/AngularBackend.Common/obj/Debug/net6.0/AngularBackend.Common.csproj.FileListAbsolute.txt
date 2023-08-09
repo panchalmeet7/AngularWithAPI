@@ -10,3 +10,6 @@ D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\ref\AngularBackend.Common.dll
 D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\bin\Debug\net6.0\AngularBackend.Entities.dll
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\bin\Debug\net6.0\AngularBackend.Entities.pdb
+D:\Angular\AngularWithAPI\AngularBackend\AngularBackend.Common\obj\Debug\net6.0\AngularBackend.Common.csproj.CopyComplete

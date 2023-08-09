@@ -24,5 +24,14 @@ namespace AngularBackend.Common.CommonModels
         public static string InvalidLoginCredentials = "Password is incorrect";
         #endregion
 
+        #region ForgetPassword
+        public static string EmailNotSend = "Email not send please try again after some time";
+        public static string EmailSentSuccessfully = "Email sent successfully!! Go to your Gmail(📧) and change the password";
+        #endregion
+
+        #region ResetPassword
+        public static string PasswordResetSuccess = "Password changes successfully! Please Sign In with new credetials";
+        public static string LinkExpired = "Link is expired! Please generate new request!";
+        #endregion
     }
 }

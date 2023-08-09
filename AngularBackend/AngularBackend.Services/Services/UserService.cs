@@ -20,11 +20,24 @@ namespace AngularBackend.Services.Services
             _accountRepository = accountRepository;
         }
 
-        #region Register
         public async Task<JsonResult> Register(RegisterViewModel registerViewModel)
         {
             return await _accountRepository.RegisterUser( registerViewModel);
         }
-        #endregion
+        
+        public async Task<JsonResult> Login(UserViewModel userViewModel)
+        {
+            return await _accountRepository.LoginUser(userViewModel);
+        }
+
+        public async Task<JsonResult> SendEmail(string email)
+        {
+            return await _accountRepository.SendEmail(email);
+        }
+
+        public async Task<JsonResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
+        {
+            return await _accountRepository.ResetPassword(resetPasswordViewModel);
+        }
     }
 }

@@ -1,32 +1,67 @@
-﻿using AngularBackend.Entities.ViewModels;
-using AngularBackend.Repository.Interface;
+﻿using AngularBackend.Entities.Models;
 using Microsoft.Extensions.Configuration;
-using MimeKit;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AngularBackend.Repository.Repository
+namespace AngularBackend.Common.CommonMethods
 {
-    public class EmailRepository : IEmailRepository
+    public class CommonMethods
     {
         private readonly IConfiguration _config;
-        public EmailRepository(IConfiguration configuration)
+        public CommonMethods(IConfiguration configuration)
         {
             _config = configuration;
         }
 
-        public void SendEmail(string recipient, string subject, string body)
+        #region Token For ResetPassword
+        public static string CreateTokenForResetPassword()
+        {
+            byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            byte[] key = Guid.NewGuid().ToByteArray();
+            string token = Convert.ToBase64String(time.Concat(key).ToArray());
+            return token;
+        }
+        #endregion
+
+        #region Create JWT Token
+        public static string CreateToken(User user) //JWT Token Contains 3 things => Header, Payload & Signature
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("CI_PlatForm_Secreat_Key_Is_Demo_With256Bits");
+            var identity = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Name, $"{user.FirstName}")
+            });
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddHours(1),
+                SigningCredentials = credentials
+            };
+
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return jwtTokenHandler.WriteToken(token);
+        }
+        #endregion
+
+        #region Send Email Through SMTP Client
+        public static void SendEmail(string recipient, string subject, string body)
         {
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress("panchalmeet1302@gmail.com");
                 mail.To.Add(recipient);
-                mail.Subject = "Please Reset Your Password!!";
+                mail.Subject = subject;
                 mail.IsBodyHtml = true;
                 mail.Body = body;
 
@@ -34,7 +69,7 @@ namespace AngularBackend.Repository.Repository
                 {
                     smtp.Credentials = new NetworkCredential("meetpanchal194@gmail.com", "ksdqxndnbbsofpyz");
                     smtp.EnableSsl = true;
-
+                    
                     try
                     {
                         smtp.Send(mail);
@@ -46,7 +81,7 @@ namespace AngularBackend.Repository.Repository
                 }
             }
 
-            #region MimeMessage Technique to send an email
+            #region MimeMessage Technique
             //var emailMessage = new MimeMessage();
             //var From = _config["EmailCredentials:From"];
             //emailMessage.From.Add(new MailboxAddress("lets program", From));
@@ -76,7 +111,7 @@ namespace AngularBackend.Repository.Repository
             //    }
             //}
             #endregion
-
         }
+        #endregion
     }
 }

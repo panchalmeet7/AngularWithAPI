@@ -24,22 +24,21 @@ namespace AngularBackend.Controllers
         #region properties
         private readonly IAccountRepository _accountRepository;
         private readonly DummyAppContext _DbContext;
-        private readonly IEmailRepository _emailRepository;
         private readonly IConfiguration _config;
         private readonly IUserService _userService;
         #endregion
 
         #region Constructor
-        public AccountController(IAccountRepository accountRepository, DummyAppContext DbContext, IEmailRepository emailRepository, IConfiguration configuration, IUserService userService)
+        public AccountController(IAccountRepository accountRepository, DummyAppContext DbContext, IConfiguration configuration, IUserService userService)
         {
             _accountRepository = accountRepository;
             _DbContext = DbContext;
-            _emailRepository = emailRepository;
             _config = configuration;
             _userService = userService;
         }
         #endregion
 
+        #region Common Methods
         private Task<bool> CheckEmailExistAsync(string email)
              => _DbContext.Users.AnyAsync(x => x.Email == email);
 
@@ -54,74 +53,68 @@ namespace AngularBackend.Controllers
             //    sb.Append("Password Should Contain Special Character" + Environment.NewLine);
             return sb.ToString();
         }
+        #endregion
 
-        // token contains 3 things => header, payload and signature
-        private string CreateToken(User user)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("veryverysecretkey.......");
-            var identity = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.Name, $"{user.FirstName}")
-            });
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = identity,
-                Expires = DateTime.Now.AddHours(1),
-                SigningCredentials = credentials
-            };
-            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-            return jwtTokenHandler.WriteToken(token);
-        }
-
+        #region GetAllUsers API
         [Authorize]
         [HttpGet("Users")]
         public async Task<ActionResult<User>> GetAllUsers()
         {
             return Ok(await _DbContext.Users.ToListAsync());
         }
+        #endregion
 
+        #region Login API
         [HttpPost("Authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] UserViewModel userViewModel)
         {
-            if (userViewModel == null)
-                return BadRequest();
-
-            var user = await _DbContext.Users
-                .FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
-
-            if (user == null)
-                return NotFound(new { Message = "User Not Found!" });
-
-            if (!PasswordHasher.VerifyPassword(userViewModel.Password, user.Password))
-                return BadRequest(new { Message = "Password is incorrect!" });
-
-            user.Token = CreateToken(user);
-
-            return Ok(new
-            {
-                Token = user.Token,
-                Message = "WELCOME TO THE DASHBOARD!!"
-            });
-        }
-
-
-        [HttpPost("Register")]
-        public async Task<JsonResult> RegisterUser([FromBody] RegisterViewModel registerViewModel )
-        {
             if (ModelState.IsValid)
             {
-                var model = await _userService.Register(registerViewModel);
-                return model;
+                return await _userService.Login(userViewModel);
             }
             else
             {
                 return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.InternalServerError, StatusCode = ResponceStatusCode.BadRequest, Result = false });
             }
 
-            #region Old All in controller method
+            #region Old Method
+            //if (userViewModel == null)
+            //    return BadRequest();
+
+            //var user = await _DbContext.Users
+            //    .FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
+
+            //if (user == null)
+            //    return NotFound(new { Message = "User Not Found!" });
+
+            //if (!PasswordHasher.VerifyPassword(userViewModel.Password, user.Password))
+            //    return BadRequest(new { Message = "Password is incorrect!" });
+
+            //user.Token = CreateToken(user);
+
+            //return Ok(new
+            //{
+            //    Token = user.Token,
+            //    Message = "WELCOME TO THE DASHBOARD!!"
+            //});
+            #endregion
+        }
+        #endregion
+
+        #region Registration API
+        [HttpPost("Register")]
+        public async Task<JsonResult> RegisterUser([FromBody] RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return await _userService.Register(registerViewModel);
+            }
+            else
+            {
+                return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.InternalServerError, StatusCode = ResponceStatusCode.BadRequest, Result = false });
+            }
+
+            #region Old Method
 
             //if (userObj == null)
             //    return BadRequest();
@@ -144,52 +137,79 @@ namespace AngularBackend.Controllers
 
             #endregion
         }
+        #endregion
 
+        #region ForgetPassword API
         [HttpPost("send-rest-email/{email}")]
         public async Task<IActionResult> SendEmailToUser(string email)
         {
-            var user = await _DbContext.Users.FirstOrDefaultAsync(a => a.Email == email);
-            if (user == null)
+            if (email != null)
             {
-                return NotFound(new { Message = "Email Doesn't Exist! Please Register First!", StatusCode = 404 });
+                return await _userService.SendEmail(email);
+            }
+            else
+            {
+                return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.InternalServerError, StatusCode = ResponceStatusCode.BadRequest, Result = false });
             }
 
-            byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
-            byte[] key = Guid.NewGuid().ToByteArray();
-            string token = Convert.ToBase64String(time.Concat(key).ToArray());
-            user.ResetPassewordToken = token;
-            user.ResetPasswordExpiry = DateTime.Now.AddMinutes(15);
-            string from = _config["EmailCredentials:From"];
-            string body = EmailSubject.EmailStringBody(email, token);
-            string subject = "Please Reset your password";
-            _emailRepository.SendEmail(email, subject, body);
-            _DbContext.Entry(user).State = EntityState.Modified;
-            await _DbContext.SaveChangesAsync();
-            return Ok(new { StatusCode = 200, Message = "Email Sent!" });
-        }
+            #region Old Method
+            //var user = await _DbContext.Users.FirstOrDefaultAsync(a => a.Email == email);
+            //if (user == null)
+            //{
+            //    return NotFound(new { Message = "Email Doesn't Exist! Please Register First!", StatusCode = 404 });
+            //}
 
+            //byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            //byte[] key = Guid.NewGuid().ToByteArray();
+            //string token = Convert.ToBase64String(time.Concat(key).ToArray());
+            //user.ResetPassewordToken = token;
+            //user.ResetPasswordExpiry = DateTime.Now.AddMinutes(15);
+            //string from = _config["EmailCredentials:From"];
+            //string body = EmailSubject.EmailStringBody(email, token); //Via Helper
+            //string subject = "Please Reset your password";
+            //_emailRepository.SendEmail(email, subject, body);
+            //_DbContext.Entry(user).State = EntityState.Modified;
+            //await _DbContext.SaveChangesAsync();
+            //return Ok(new { StatusCode = 200, Message = "Email Sent!" });
+            #endregion
+        }
+        #endregion
+
+        #region ResetPassword API
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
-            var user = await _DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == resetPasswordViewModel.Email);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return NotFound(new { Message = "User Doesn't Exist! Please Register First!", StatusCode = 404 });
+                return await _userService.ResetPassword(resetPasswordViewModel);
+            }
+            else
+            {
+                return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.InternalServerError, StatusCode = ResponceStatusCode.BadRequest, Result = false });
             }
 
-            var tokenCode = user.ResetPassewordToken;
-            DateTime ExpiryTime = (DateTime)user.ResetPasswordExpiry;
+            #region Old Method
+            //var user = await _DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == resetPasswordViewModel.Email);
+            //if (user == null)
+            //{
+            //    return NotFound(new { Message = "User Doesn't Exist! Please Register First!", StatusCode = 404 });
+            //}
 
-            if (tokenCode != resetPasswordViewModel.EmailToken || ExpiryTime < DateTime.Now)
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Invalid Link!" });
-            }
+            //var tokenCode = user.ResetPassewordToken;
+            //DateTime ExpiryTime = (DateTime)user.ResetPasswordExpiry;
 
-            resetPasswordViewModel.ConfirmPassword = user.Password = PasswordHasher.HashPassword(resetPasswordViewModel.NewPassword);
-            _DbContext.Entry(user).State = EntityState.Modified;
-            await _DbContext.SaveChangesAsync();
-            return Ok(new { StatusCode = 200, Message = "Password reset successfully!" });
+            //if (tokenCode != resetPasswordViewModel.EmailToken || ExpiryTime < DateTime.Now)
+            //{
+            //    return BadRequest(new { StatusCode = 400, Message = "Invalid Link!" });
+            //}
+
+            //resetPasswordViewModel.ConfirmPassword = user.Password = PasswordHasher.HashPassword(resetPasswordViewModel.NewPassword);
+            //_DbContext.Entry(user).State = EntityState.Modified;
+            //await _DbContext.SaveChangesAsync();
+            //return Ok(new { StatusCode = 200, Message = "Password reset successfully!" });
+            #endregion 
         }
+        #endregion
 
     }
 }

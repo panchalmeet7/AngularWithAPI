@@ -13,5 +13,8 @@ namespace AngularBackend.Services.ServiceInterface
     public interface IUserService
     {
         Task<JsonResult> Register(RegisterViewModel registerViewModel);
+        Task<JsonResult> Login(UserViewModel userViewModel);
+        Task<JsonResult> SendEmail(string email);
+        Task<JsonResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel);
     }
 }

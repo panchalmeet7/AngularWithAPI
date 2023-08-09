@@ -29,7 +29,6 @@ builder.Services.AddDbContext<DummyAppContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
 });
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAuthentication(x =>
 {
@@ -42,7 +41,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("veryverysecretkey.......")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("CI_PlatForm_Secreat_Key_Is_Demo_With256Bits")),
         ValidateAudience = false,
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero

@@ -11,6 +11,9 @@ namespace AngularBackend.Repository.Interface
 {
     public interface IAccountRepository
     {
-       Task<JsonResult> RegisterUser(RegisterViewModel registerViewModel);
+        Task<JsonResult> RegisterUser(RegisterViewModel registerViewModel);
+        Task<JsonResult> LoginUser(UserViewModel userViewModel);
+        Task<JsonResult> SendEmail(string email);
+        Task<JsonResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel);
     }
 }
