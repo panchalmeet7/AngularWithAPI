@@ -19,7 +19,7 @@ namespace AngularBackend.Common.CommonModels
         #endregion
 
         #region Login
-        public static string LoginSuccess = "Welcome to Dashboard";
+        public static string LoginSuccess = "Rom Rom Bhaiooo!!";
         public static string UserNotFound = "User not found";
         public static string InvalidLoginCredentials = "Password is incorrect";
         #endregion

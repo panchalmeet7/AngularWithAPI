@@ -5,12 +5,7 @@ using AngularBackend.Entities.Models.ViewModels;
 using AngularBackend.Entities.ViewModels;
 using AngularBackend.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using AngularBackend.Entities.Helper;
 using AngularBackend.Common.CommonMethods;
 using Microsoft.Extensions.Configuration;
@@ -19,15 +14,25 @@ namespace AngularBackend.Repository.Repository
 {
     public class AccountRepository : IAccountRepository
     {
+        #region Properties
         private readonly DummyAppContext _DbContext;
         private readonly IConfiguration _config;
+        #endregion
+
+        #region Constructor
         public AccountRepository(DummyAppContext DbContext, IConfiguration config)
         {
             _DbContext = DbContext;
             _config = config;
         }
+        #endregion
 
-        #region Login Method
+        #region Login 
+        /// <summary>
+        /// LoginUser
+        /// </summary>
+        /// <param name="userViewModel"></param>
+        /// <returns></returns>
         public async Task<JsonResult> LoginUser(UserViewModel userViewModel)
         {
             var user = await _DbContext.Users
@@ -46,7 +51,12 @@ namespace AngularBackend.Repository.Repository
         }
         #endregion
 
-        #region Registration Method
+        #region Registration 
+        /// <summary>
+        /// RegisterUser
+        /// </summary>
+        /// <param name="registerViewModel"></param>
+        /// <returns></returns>
         public async Task<JsonResult> RegisterUser(RegisterViewModel registerViewModel)
         {
             try
@@ -69,7 +79,6 @@ namespace AngularBackend.Repository.Repository
                 await _DbContext.Users.AddAsync(user);
                 await _DbContext.SaveChangesAsync();
                 return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.RegistrationSuccess, StatusCode = ResponceStatusCode.Success, Result = true });
-
             }
             catch
             {
@@ -78,7 +87,12 @@ namespace AngularBackend.Repository.Repository
         }
         #endregion
 
-        #region ForgetPassword Mail Send Method
+        #region ForgetPassword Mail Send 
+        /// <summary>
+        /// SendEmail
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<JsonResult> SendEmail(string email)
         {
             var user = await _DbContext.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
@@ -108,7 +122,12 @@ namespace AngularBackend.Repository.Repository
         }
         #endregion
 
-        #region ResetPassword Method
+        #region ResetPassword 
+        /// <summary>
+        /// ResetPassword
+        /// </summary>
+        /// <param name="resetPasswordViewModel"></param>
+        /// <returns></returns>
         public async Task<JsonResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
             var user = await _DbContext.Users.FirstOrDefaultAsync(x => x.Email == resetPasswordViewModel.Email);
