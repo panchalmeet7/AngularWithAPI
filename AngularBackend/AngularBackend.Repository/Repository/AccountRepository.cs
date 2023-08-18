@@ -1,14 +1,12 @@
-﻿using AngularBackend.Common.CommonModels;
-using AngularBackend.Entities.Data;
+﻿using AngularBackend.Entities.Data;
 using AngularBackend.Entities.Models;
 using AngularBackend.Entities.Models.ViewModels;
 using AngularBackend.Entities.ViewModels;
 using AngularBackend.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using AngularBackend.Entities.Helper;
-using AngularBackend.Common.CommonMethods;
 using Microsoft.Extensions.Configuration;
+using AngularBackend.Common.CommonModels;
 
 namespace AngularBackend.Repository.Repository
 {
@@ -19,7 +17,7 @@ namespace AngularBackend.Repository.Repository
         private readonly IConfiguration _config;
         #endregion
 
-        #region Constructor
+        #region Ctor
         public AccountRepository(DummyAppContext DbContext, IConfiguration config)
         {
             _DbContext = DbContext;
@@ -41,11 +39,11 @@ namespace AngularBackend.Repository.Repository
             if (user == null)
                 return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.UserNotFound, StatusCode = ResponceStatusCode.NotFound, Result = false });
 
-            if (!PasswordHasher.VerifyPassword(userViewModel.Password, user.Password))
+            if (!Entities.Helper.PasswordHasher.VerifyPassword(userViewModel.Password, user.Password))
                 return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.InvalidLoginCredentials, StatusCode = ResponceStatusCode.BadRequest, Result = false });
 
             string token = "";
-            token = CommonMethods.CreateToken(user);
+            token = Common.CommonMethods.CommonMethods.CreateToken(user);
 
             return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.LoginSuccess, StatusCode = ResponceStatusCode.Success, Data = token, Result = true });
         }
@@ -65,12 +63,12 @@ namespace AngularBackend.Repository.Repository
                 if (userExist != null)
                     return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.UserAlreadyExist, StatusCode = ResponceStatusCode.AlreadyExist, Result = false });
 
-                User user = new()
+                User user = new User()
                 {
                     FirstName = registerViewModel.FirstName,
                     LastName = registerViewModel.LastName,
                     Email = registerViewModel.Email,
-                    Password = registerViewModel.Password = PasswordHasher.HashPassword(registerViewModel.Password),
+                    Password = registerViewModel.Password = Entities.Helper.PasswordHasher.HashPassword(registerViewModel.Password),
                     Role = "USER",
                     Token = "",
                     PhoneNumber = registerViewModel.PhoneNumber,
@@ -100,14 +98,14 @@ namespace AngularBackend.Repository.Repository
             if (user == null)
                 return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.UserNotFound, StatusCode = ResponceStatusCode.NotFound, Result = false });
 
-            string token = CommonMethods.CreateTokenForResetPassword();
+            string token = Common.CommonMethods.CommonMethods.CreateTokenForResetPassword();
 
             string? from = _config["EmailCredentials:From"];
-            string body = EmailSubject.EmailStringBody(email, token);
+            string body = Entities.Helper.EmailSubject.EmailStringBody(email, token);
             string subject = "Please Reset your password";
             try
             {
-                CommonMethods.SendEmail(from, subject, body);
+                Common.CommonMethods.CommonMethods.SendEmail(from, subject, body);
             }
             catch
             {
@@ -143,7 +141,7 @@ namespace AngularBackend.Repository.Repository
                 return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.LinkExpired, StatusCode = ResponceStatusCode.RequestFailed, Result = false });
             }
 
-            resetPasswordViewModel.ConfirmPassword = user.Password = PasswordHasher.HashPassword(resetPasswordViewModel.NewPassword);
+            resetPasswordViewModel.ConfirmPassword = user.Password = Entities.Helper.PasswordHasher.HashPassword(resetPasswordViewModel.NewPassword);
             _DbContext.Entry(user).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();
             return new JsonResult(new ApiResponce<string> { Message = ResponceMessages.PasswordResetSuccess, StatusCode = ResponceStatusCode.Success, Result = true });
